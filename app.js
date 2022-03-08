@@ -6,12 +6,18 @@ const app = express();
 
 const sauce = require("./models/sauce");
 
+const saucesRoutes = require("./routes/sauce");
+
+const userRoutes = require("./routes/user");
+
 mongoose
   .connect(
-    "mongodb+srv://Amine:Projet@6@cluster0.owdbk.mongodb.net/Amine?retryWrites=true&w=majority",
+    // "mongodb+srv://AmineDerbal:Projet@6@cluster0.owdbk.mongodb.net/projet6?retryWrites=true&w=majority",
+    "mongodb://AmineDerbal:projet6lundi@cluster0-shard-00-00.owdbk.mongodb.net:27017,cluster0-shard-00-01.owdbk.mongodb.net:27017,cluster0-shard-00-02.owdbk.mongodb.net:27017/projet6?ssl=true&replicaSet=atlas-5r2x5f-shard-0&authSource=admin&retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
+
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
 //Middleware gérant les problèmes de CORS (Cross Origin Resource Sharing)
@@ -30,5 +36,8 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+app.use("/api/sauce", saucesRoutes);
+app.use("/api/auth", userRoutes);
 
 module.exports = app;

@@ -1,5 +1,6 @@
 //Appel de mongoose pour utiliser plus loin sa fonction Schema
 const mongoose = require("mongoose");
+const mongooseErrors = require("mongoose-errors");
 
 //Création d'un Schema (model) pour les sauces
 const sauceSchema = mongoose.Schema({
@@ -36,19 +37,29 @@ const sauceSchema = mongoose.Schema({
   //Le nombre de likes que la sauce a reçu
   likes: {
     type: Number,
+    require: true,
+  },
+  //La temperature
+  heat: {
+    type: Number,
+    require: true,
   },
   //Le nombre de dislikes que la sauce a reçu
   dislikes: {
     type: Number,
+    require: true,
   },
   //Un tableau contenant les userId des utilisateurs ayant liké la sauce
   usersLiked: {
-    type: [String],
+    type: String,
+    require: true,
   },
   //Un tableau contenant les userId des utilisateurs ayant disliké la sauce
   usersDisliked: {
-    type: [String],
+    type: String,
+    require: true,
   },
 });
 
+sauceSchema.plugin(mongooseErrors);
 module.exports = mongoose.model("sauce", sauceSchema);
