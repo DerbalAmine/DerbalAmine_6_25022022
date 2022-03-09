@@ -10,10 +10,7 @@ const saucesRoutes = require("./routes/sauce");
 
 const userRoutes = require("./routes/user");
 
-mongoose
-  .connect(
-    // "mongodb+srv://AmineDerbal:Projet@6@cluster0.owdbk.mongodb.net/projet6?retryWrites=true&w=majority",
-    "mongodb://AmineDerbal:projet6lundi@cluster0-shard-00-00.owdbk.mongodb.net:27017,cluster0-shard-00-01.owdbk.mongodb.net:27017,cluster0-shard-00-02.owdbk.mongodb.net:27017/projet6?ssl=true&replicaSet=atlas-5r2x5f-shard-0&authSource=admin&retryWrites=true&w=majority",
+mongoose.connect("mongodb://AmineDerbal:projet6lundi@cluster0-shard-00-00.owdbk.mongodb.net:27017,cluster0-shard-00-01.owdbk.mongodb.net:27017,cluster0-shard-00-02.owdbk.mongodb.net:27017/projet6?ssl=true&replicaSet=atlas-5r2x5f-shard-0&authSource=admin&retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
