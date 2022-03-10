@@ -19,11 +19,12 @@ exports.createSauce = (req, res, next) => {
 exports.modifySauce = (req, res, next) => {
   const sauceObject = req.file
     ? {
+        //On récupère la chaîne de caractère, que l'on PARSE en objet JSON...
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get("host")}/images/${
           req.file.filename
         }`,
-      }
+      } //Si on ne trouve pas de fichier On prend le corps de la requête
     : { ...req.body };
   Sauce.updateOne(
     { _id: req.params.id },
