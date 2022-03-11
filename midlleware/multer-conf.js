@@ -18,5 +18,5 @@ const storage = multer.diskStorage({
     callback(null, name + Date.now() + "." + extension); // et d'ajouter un timestamps Date.now comme nom de ficher
   },
 });
-
+//On exporte le middleware multer
 module.exports = multer({ storage: storage }).single("image"); //Sa méthode single()  crée un middleware qui capture les fichiers d'un certain type (passé en argument), et les enregistre au système de fichiers du serveur à l'aide du storage configuré.

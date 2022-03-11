@@ -1,17 +1,17 @@
 //Appel du package bcrypt servant à hacher le mot de passe de l'utilisateur
 const bcrypt = require("bcrypt");
 
-//Appel du modèle User (schema mongoose)
-const User = require("../models/User");
-
 //Appel du package jsonwebtoken
 const jwt = require("jsonwebtoken");
+
+//Appel du modèle user (schema mongoose)
+const User = require("../models/user");
+
 
 //Fonction signup permet l'enrengistrement des utilisateurs (utilisée dans routes/user.js)
 exports.signup = (req, res, next) => {
   //Fonction hash qui permet de hasher le mots de passe, utilisée 10 fois sur le password
-  bcrypt
-    .hash(req.body.password, 10)
+  bcrypt.hash(req.body.password, 10)
     .then((hash) => {
       //Crée un nouveau user à partir de User
       const user = new User({

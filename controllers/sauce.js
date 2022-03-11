@@ -1,13 +1,17 @@
 // importer le modèle sauce
-const Sauce = require("../models/Sauce");
+const Sauce = require("../models/sauce");
+
+const fs = require("fs");
 
 // Création de la sauce
 exports.createSauce = (req, res, next) => {
-  const sauceObject = JSON.parse(req.body.sauce);
+  const sauceObject = JSON.parse(req.body.sauce); // exrait l'objet json de sauce
 
   const sauce = new Sauce({
-    ...sauceObject,
-    imageUrl: req.file.filename,
+    ...sauceObject, // on cree un objet sauceObjet qui regard si req.file existe
+    imageUrl: `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`,
   });
   sauce
     .save()
@@ -38,7 +42,7 @@ exports.modifySauce = (req, res, next) => {
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id }).then((sauce) => {
     const filename = sauce.imageUrl.split("/images/")[1];
-    fs.unlink(`images/${filename}`, () => {
+    fs.unlink(`images/${filename}`, () => { // on utilise la fonction unlink pour supprimer ce fichier 
       Sauce.deleteOne({ _id: req.params.id })
         .then(() => res.status(200).json({ message: "supprimé" }))
         .catch((error) => res.status(400).json({ error }));
