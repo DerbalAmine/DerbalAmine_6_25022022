@@ -51,12 +51,12 @@ const sauceSchema = mongoose.Schema({
   },
   //Un tableau contenant les userId des utilisateurs ayant liké la sauce
   usersLiked: {
-    type: String,
+    type: Array,
     require: true,
   },
   //Un tableau contenant les userId des utilisateurs ayant disliké la sauce
   usersDisliked: {
-    type: String,
+    type: Array,
     require: true,
   },
 });

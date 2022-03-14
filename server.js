@@ -1,4 +1,6 @@
+// Import du package http - https requiert un certificat SSL à obtenir avec un nom de domaine
 const http = require("http");
+// Import de app pour utilisation de l'application sur le serveur
 const app = require("./app");
 
 const normalizePort = (val) => {
@@ -20,8 +22,7 @@ const errorHandler = (error) => {
     throw error;
   }
   const address = server.address();
-  const bind =
-    typeof address === "string" ? "pipe " + address : "port: " + port;
+  const bind = typeof address === "string" ? "pipe " + address : "port: " + port;
   switch (error.code) {
     case "EACCES":
       console.error(bind + " requires elevated privileges.");
@@ -36,6 +37,7 @@ const errorHandler = (error) => {
   }
 };
 
+//* *****Créer un serveur avec express qui utilise app***** *//
 const server = http.createServer(app);
 
 server.on("error", errorHandler);

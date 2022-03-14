@@ -1,6 +1,7 @@
 // importer le modèle sauce
 const Sauce = require("../models/sauce");
 
+// Récupération du package file system permettant de gérer ici les téléchargements et modifications d'images
 const fs = require("fs");
 
 // Création de la sauce
@@ -9,18 +10,19 @@ exports.createSauce = (req, res, next) => {
 
   const sauce = new Sauce({
     ...sauceObject, // on cree un objet sauceObjet qui regard si req.file existe
+    // mainPepper: sauceObject.mainPepper
     imageUrl: `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
     }`,
   });
-  sauce
-    .save()
+  sauce.save()
     .then(() => res.status(201).json({ message: "Sauce sauvegardé" }))
     .catch((error) => res.status(400).json({ error }));
 };
 
 // Modification de la sauce
 exports.modifySauce = (req, res, next) => {
+  // (?) ternaire
   const sauceObject = req.file
     ? {
         //On récupère la chaîne de caractère, que l'on PARSE en objet JSON...
@@ -40,9 +42,10 @@ exports.modifySauce = (req, res, next) => {
 
 // Suppression de la sauce
 exports.deleteSauce = (req, res, next) => {
-  Sauce.findOne({ _id: req.params.id }).then((sauce) => {
-    const filename = sauce.imageUrl.split("/images/")[1];
-    fs.unlink(`images/${filename}`, () => { // on utilise la fonction unlink pour supprimer ce fichier 
+  Sauce.findOne({ _id: req.params.id }).then((sauce) => { // findOne trouve une sauce 
+    const filename = sauce.imageUrl.split("/images/")[1]; 
+    fs.unlink(`images/${filename}`, () => {
+      // on utilise la fonction unlink pour supprimer ce fichier
       Sauce.deleteOne({ _id: req.params.id })
         .then(() => res.status(200).json({ message: "supprimé" }))
         .catch((error) => res.status(400).json({ error }));

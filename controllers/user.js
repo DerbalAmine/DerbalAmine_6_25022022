@@ -41,8 +41,7 @@ exports.login = (req, res, next) => {
       }
       //Si le user existe, utilise la fonction compare de bcrypt sur le mot de passe entré qui permt de comparer les mdp
       //avec le mot de passe haché sauvegardé
-      bcrypt
-        .compare(req.body.password, user.password)
+      bcrypt.compare(req.body.password, user.password)
         .then((valid) => {
           //Si le mot de passe ne correspond pas, envoie une erreur
           if (!valid) {
@@ -58,7 +57,7 @@ exports.login = (req, res, next) => {
             }),
           });
         })
-        .catch((error) => res.status(500).json({ error }));
+        .catch((error) => res.status(401).json({ error }));
     })
     .catch((error) => res.status(500).json({ error }));
 };
