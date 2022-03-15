@@ -4,6 +4,20 @@ const Sauce = require("../models/sauce");
 // Récupération du package file system permettant de gérer ici les téléchargements et modifications d'images
 const fs = require("fs");
 
+// Récupération de toutes les sauces
+exports.getAllSauces = (req, res, next) => {
+  Sauce.find()
+    .then((sauces) => res.status(200).json(sauces))
+    .catch((error) => res.status(400).json({ error }));
+};
+
+// Récupération d'une seule sauce
+exports.getOneSauce = (req, res, next) => {
+  Sauce.findOne({ _id: req.params.id })
+    .then((sauce) => res.status(200).json(sauce))
+    .catch((error) => res.status(404).json({ error }));
+};
+
 // Création de la sauce
 exports.createSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce); // exrait l'objet json de sauce
@@ -19,14 +33,13 @@ exports.createSauce = (req, res, next) => {
     .save()
     .then(() => res.status(201).json({ message: "Sauce sauvegardé" }))
     .catch((error) => res.status(400).json({ error }));
-  console.log(sauce);
 };
 
 // Modification de la sauce
 exports.modifySauce = (req, res, next) => {
   // (?) ternaire
-  const sauceObject = req.file ? // on vérifie si la modification concerne le body ou un nouveau fichier image
-     {
+  const sauceObject = req.file // on vérifie si la modification concerne le body ou un nouveau fichier image
+    ? {
         //On récupère la chaîne de caractère, que l'on PARSE en objet JSON...
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get("host")}/images/${
@@ -120,18 +133,4 @@ exports.likeSauce = (req, res, next) => {
       })
       .catch((error) => res.status(400).json({ error }));
   }
-};
-
-// Récupération de toutes les sauces
-exports.getAllSauces = (req, res, next) => {
-  Sauce.find()
-    .then((sauces) => res.status(200).json(sauces))
-    .catch((error) => res.status(400).json({ error }));
-};
-
-// Récupération d'une seule sauce
-exports.getOneSauce = (req, res, next) => {
-  Sauce.findOne({ _id: req.params.id })
-    .then((sauce) => res.status(200).json(sauce))
-    .catch((error) => res.status(404).json({ error }));
 };

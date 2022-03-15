@@ -15,7 +15,8 @@ const helmet = require("helmet");
 
 const app = express();
 
-mongoose.connect(
+mongoose
+  .connect(
     "mongodb://AmineDerbal:projet6lundi@cluster0-shard-00-00.owdbk.mongodb.net:27017,cluster0-shard-00-01.owdbk.mongodb.net:27017,cluster0-shard-00-02.owdbk.mongodb.net:27017/projet6?ssl=true&replicaSet=atlas-5r2x5f-shard-0&authSource=admin&retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
@@ -32,14 +33,12 @@ app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 //Middleware gérant les problèmes de CORS (Cross Origin Resource Sharing)
 app.use((req, res, next) => {
-  //Accepte les requêtes depuis n'importe quelle origine
+  // Middleware Header qui permet à toutes les demandes de toutes les origines d'accéder à l'API
   res.setHeader("Access-Control-Allow-Origin", "*");
-
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
   );
-
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
