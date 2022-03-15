@@ -37,7 +37,7 @@ const errorHandler = (error) => {
   }
 };
 
-//* *****Créer un serveur avec express qui utilise app***** *//
+//* *****Créer un serveur avec express qui utilise app*//
 const server = http.createServer(app);
 
 server.on("error", errorHandler);

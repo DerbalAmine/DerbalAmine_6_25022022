@@ -7,7 +7,7 @@ const fs = require("fs");
 // Création de la sauce
 exports.createSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce); // exrait l'objet json de sauce
-
+  delete sauceObject._id;
   const sauce = new Sauce({
     ...sauceObject, // on cree un objet sauceObjet qui regard si req.file existe
     // mainPepper: sauceObject.mainPepper
@@ -15,16 +15,18 @@ exports.createSauce = (req, res, next) => {
       req.file.filename
     }`,
   });
-  sauce.save()
+  sauce
+    .save()
     .then(() => res.status(201).json({ message: "Sauce sauvegardé" }))
     .catch((error) => res.status(400).json({ error }));
+  console.log(sauce);
 };
 
 // Modification de la sauce
 exports.modifySauce = (req, res, next) => {
   // (?) ternaire
-  const sauceObject = req.file
-    ? {
+  const sauceObject = req.file ? // on vérifie si la modification concerne le body ou un nouveau fichier image
+     {
         //On récupère la chaîne de caractère, que l'on PARSE en objet JSON...
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get("host")}/images/${
@@ -42,8 +44,9 @@ exports.modifySauce = (req, res, next) => {
 
 // Suppression de la sauce
 exports.deleteSauce = (req, res, next) => {
-  Sauce.findOne({ _id: req.params.id }).then((sauce) => { // findOne trouve une sauce 
-    const filename = sauce.imageUrl.split("/images/")[1]; 
+  Sauce.findOne({ _id: req.params.id }).then((sauce) => {
+    // findOne trouve une sauce
+    const filename = sauce.imageUrl.split("/images/")[1];
     fs.unlink(`images/${filename}`, () => {
       // on utilise la fonction unlink pour supprimer ce fichier
       Sauce.deleteOne({ _id: req.params.id })

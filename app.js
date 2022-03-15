@@ -2,23 +2,20 @@ const express = require("express");
 
 const mongoose = require("mongoose");
 
-const path = require("path");
-
-const app = express();
-
-const sauce = require("./models/sauce");
+const bodyParser = require("body-parser");
 
 const saucesRoutes = require("./routes/sauce");
 
 const userRoutes = require("./routes/user");
 
-const bodyParser = require("body-parser");
+const path = require("path");
 
 //appelle le package helmet
 const helmet = require("helmet");
 
-mongoose
-  .connect(
+const app = express();
+
+mongoose.connect(
     "mongodb://AmineDerbal:projet6lundi@cluster0-shard-00-00.owdbk.mongodb.net:27017,cluster0-shard-00-01.owdbk.mongodb.net:27017,cluster0-shard-00-02.owdbk.mongodb.net:27017/projet6?ssl=true&replicaSet=atlas-5r2x5f-shard-0&authSource=admin&retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
