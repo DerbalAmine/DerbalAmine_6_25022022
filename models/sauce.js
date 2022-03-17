@@ -43,11 +43,13 @@ const sauceSchema = mongoose.Schema({
   heat: {
     type: Number,
     require: true,
+    default: 0,
   },
   //Le nombre de dislikes que la sauce a reçu
   dislikes: {
     type: Number,
     require: true,
+    default: 0,
   },
   //Un tableau contenant les userId des utilisateurs ayant liké la sauce
   usersLiked: {

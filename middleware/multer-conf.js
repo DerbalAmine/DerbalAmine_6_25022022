@@ -7,7 +7,7 @@ const MIME_TYPES = {
 };
 
 const imageFilter = (req, file, callback) => {
-  if (file.mimetype.startswith("image")) { 
+  if (file.mimetype.startsWith("image")) { 
     callback(null, true);
   } else {
     callback("please upload only images", false);
